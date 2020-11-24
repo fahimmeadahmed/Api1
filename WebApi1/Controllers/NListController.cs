@@ -21,28 +21,28 @@ namespace WebApi1.Controllers
             _context = context;
         }
 
-        // GET: api/NList
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<NList>>> GetNLists()
-        //{
-        //    return await _context.NLists.ToListAsync();
-        //}
-        [HttpGet]
-        public List<NListViewmodel> InnerJoin()
+        //get: api/NList
+       [HttpGet]
+        public async Task<ActionResult<IEnumerable<NList>>> GetNList()
         {
-            var jointables = (from NLists in _context.NLists
-                              join NDates in _context.NDates on NLists.id equals NDates.id
-                              select new NListViewmodel(){ id = NLists.id, 
-                                           title = NLists.title,
-                                           description = NLists.description,
-                                           date = NDates.date
-                                           
-                              }
-                                ).ToList();
-            //return await _context.NLists.ToListAsync();
-            return jointables;
-            //return jointables;
+            return await _context.NLists.ToListAsync();
         }
+        //[HttpGet]
+        //public List<NListViewmodel> InnerJoin()
+        //{
+        //    var jointables = (from NLists in _context.NLists
+        //                      join NDates in _context.NDates on NLists.id equals NDates.id
+        //                      select new NListViewmodel(){ id = NLists.id, 
+        //                                   title = NLists.title,
+        //                                   description = NLists.description,
+        //                                   date = NDates.date
+                                           
+        //                      }
+        //                        ).ToList();
+        //    //return await _context.NLists.ToListAsync();
+        //    return jointables;
+        //    //return jointables;
+        //}
         // GET: api/NList/5
         [HttpGet("{id}")]
         public async Task<ActionResult<NList>> GetNList(int id)
