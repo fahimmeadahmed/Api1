@@ -8297,11 +8297,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\WebApi1\\Api1\\WebApi1\\WebApi1.csproj",
+      "projectUniqueName": "C:\\Users\\DELL\\Desktop\\WebApi1\\Api1\\WebApi1\\WebApi1.csproj",
       "projectName": "WebApi1",
-      "projectPath": "E:\\WebApi1\\Api1\\WebApi1\\WebApi1.csproj",
+      "projectPath": "C:\\Users\\DELL\\Desktop\\WebApi1\\Api1\\WebApi1\\WebApi1.csproj",
       "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-      "outputPath": "E:\\WebApi1\\Api1\\WebApi1\\obj\\",
+      "outputPath": "C:\\Users\\DELL\\Desktop\\WebApi1\\Api1\\WebApi1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",

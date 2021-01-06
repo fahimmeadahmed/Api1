@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -22,31 +23,68 @@ namespace WebApi1.Controllers
         }
 
         //get: api/NList
-       [HttpGet]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<NList>>> GetNList()
         {
             return await _context.NLists.ToListAsync();
         }
-        //[HttpGet]
-        //public List<NListViewmodel> InnerJoin()
+        [HttpPost("NewsListSearchParams")]
+
+        public List<NListViewmodel> InnerJoin(NewsListSearchParams searchParams)
+        {
+            //var date = DateTime.Parse(searchParams.Date);
+            DateTime date = DateTime.ParseExact(searchParams.Date, "dd/MM/yyyy",
+                                    CultureInfo.InvariantCulture);
+            var jointables = (from NLists in _context.NLists
+                              join NDates in _context.NDates on NLists.id equals NDates.id
+                              where (searchParams.Id == null || searchParams.Id == NDates.id)
+                              && (searchParams.Date == null || date == NDates.date)
+                              select new NListViewmodel()
+                              {
+                                  id = NLists.id,
+                                  title = NLists.title,
+                                  description = NLists.description,
+                                  date = NDates.date
+                              }
+                                ).ToList();
+            //return await _context.NLists.ToListAsync();
+            return jointables;
+            //return jointables;
+        }
+        ////GET: api/NList/5
+        //[HttpGet("{id}/{date}")]
+
+        //public List<NListViewmodel> InnerJoin(int id)
         //{
+
+        //    //var nList = await _context.NLists.FindAsync(id);
         //    var jointables = (from NLists in _context.NLists
         //                      join NDates in _context.NDates on NLists.id equals NDates.id
-        //                      select new NListViewmodel(){ id = NLists.id, 
-        //                                   title = NLists.title,
-        //                                   description = NLists.description,
-        //                                   date = NDates.date
-                                           
+
+        //                      select new NListViewmodel()
+        //                      {
+        //                          id = NLists.id,
+        //                          title = NLists.title,
+        //                          description = NLists.description,
+        //                          date = NDates.date
         //                      }
         //                        ).ToList();
-        //    //return await _context.NLists.ToListAsync();
+
+        //    //    if (nList == null)
+        //    //    {
+        //    //        return NotFound();
+        //    //    }
+
+        //    //    return nList;
+        //    //}
         //    return jointables;
-        //    //return jointables;
         //}
-        // GET: api/NList/5
+
+        ////GET: api/NList/
         [HttpGet("{id}")]
         public async Task<ActionResult<NList>> GetNList(int id)
         {
+
             var nList = await _context.NLists.FindAsync(id);
 
             if (nList == null)
@@ -56,10 +94,23 @@ namespace WebApi1.Controllers
 
             return nList;
         }
+        ////[HttpGet("{date}")]
 
-        // PUT: api/NList/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        ////public async Task<ActionResult<NListViewmodel>> GetNListByDate(DateTime date)
+        ////{
+
+        ////    var nList = await _context.NLists.FindAsync(date);
+
+        ////    if (nList == null)
+        ////    {
+        ////        return NotFound();
+        ////    }
+
+        ////    return nList;
+        ////}
+        //// PUT: api/NList/5
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        //// more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutNList(int id, NList nList)
         {
